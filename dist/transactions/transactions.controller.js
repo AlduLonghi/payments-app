@@ -12,48 +12,49 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersController = void 0;
+exports.TransactionsController = void 0;
 const common_1 = require("@nestjs/common");
-const users_service_1 = require("./users.service");
+const transactions_service_1 = require("./transactions.service");
 const prisma_1 = require("../../generated/prisma");
-let UsersController = class UsersController {
-    usersService;
-    constructor(usersService) {
-        this.usersService = usersService;
+let TransactionsController = class TransactionsController {
+    transactionsService;
+    constructor(transactionsService) {
+        this.transactionsService = transactionsService;
     }
-    create(createUserDto) {
-        return this.usersService.create(createUserDto);
+    create(createTransactionDto) {
+        return this.transactionsService.create(createTransactionDto);
     }
     findAll() {
-        return this.usersService.findAll();
+        return this.transactionsService.findAll();
     }
-    findOne(id) {
-        return this.usersService.findOne(+id);
+    update(id, body) {
+        return this.transactionsService.updateStatus(+id, body.status);
     }
 };
-exports.UsersController = UsersController;
+exports.TransactionsController = TransactionsController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], UsersController.prototype, "create", null);
+], TransactionsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], UsersController.prototype, "findAll", null);
+], TransactionsController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
+    (0, common_1.Patch)('updateStatus/:id'),
     __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
-], UsersController.prototype, "findOne", null);
-exports.UsersController = UsersController = __decorate([
-    (0, common_1.Controller)('users'),
-    __metadata("design:paramtypes", [users_service_1.UsersService])
-], UsersController);
-//# sourceMappingURL=users.controller.js.map
+], TransactionsController.prototype, "update", null);
+exports.TransactionsController = TransactionsController = __decorate([
+    (0, common_1.Controller)('transactions'),
+    __metadata("design:paramtypes", [transactions_service_1.TransactionsService])
+], TransactionsController);
+//# sourceMappingURL=transactions.controller.js.map

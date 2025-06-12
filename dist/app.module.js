@@ -8,20 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
 const database_module_1 = require("./database/database.module");
 const users_module_1 = require("./users/users.module");
 const users_controller_1 = require("./users/users.controller");
 const users_service_1 = require("./users/users.service");
+const transactions_module_1 = require("./transactions/transactions.module");
+const transactions_controller_1 = require("./transactions/transactions.controller");
+const transactions_service_1 = require("./transactions/transactions.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [database_module_1.DatabaseModule, users_module_1.UsersModule],
-        controllers: [users_controller_1.UsersController, app_controller_1.AppController],
-        providers: [app_service_1.AppService, users_service_1.UsersService],
+        imports: [database_module_1.DatabaseModule, users_module_1.UsersModule, transactions_module_1.TransactionsModule],
+        controllers: [users_controller_1.UsersController, transactions_controller_1.TransactionsController],
+        providers: [transactions_service_1.TransactionsService, users_service_1.UsersService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

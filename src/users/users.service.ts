@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from 'generated/prisma';
-import { DatabaseService } from 'src/database/database.service';
+import { Prisma } from '../../generated/prisma';
+import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class UsersService {
@@ -26,9 +26,5 @@ export class UsersService {
         id
       }
     });
-  }
-
-  async update(id: number, updateUserDto: Prisma.UserUpdateInput) {
-    return `This action updates a #${id} user`;
   }
 }

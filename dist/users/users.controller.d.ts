@@ -16,5 +16,4 @@ export declare class UsersController {
         email: string;
         balance: number;
     } | null>;
-    update(id: string, updateUserDto: Prisma.UserUpdateInput): Promise<string>;
 }

@@ -30,9 +30,9 @@ model Transaction {
   originId      Int
   destination   User     @relation("DestinationTransactions", fields: [destinationId], references: [id])
   destinationId Int
-  ammount       Int
-  status        Status
-  createdAt     DateTime @default(now())         
+  amount        Int
+  status        Status?
+  createdAt     DateTime @default(now())       
 }
 
 enum Status {

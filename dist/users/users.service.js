@@ -35,9 +35,6 @@ let UsersService = class UsersService {
             }
         });
     }
-    async update(id, updateUserDto) {
-        return `This action updates a #${id} user`;
-    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
