@@ -1,7 +1,26 @@
-/dist
-
-node_modules
-
-/generated
-
+# Node.js
+node_modules/
+generated/
+dist/
 .env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.nyc_output/
+coverage/
+.cache/
+.eslintcache
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# VS Code
+.vscode/
+
+# NestJS specific
+*.tsbuildinfo

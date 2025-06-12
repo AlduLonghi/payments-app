@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '../../generated/prisma';
 import { DatabaseService } from '../database/database.service';
 
@@ -36,17 +36,27 @@ export class UsersService {
     });
   
     const all = [...sent, ...received];
-  
+
+    if (all.length === 0) {
+      throw new NotFoundException(`Transactions for user with ID ${userId} not found.`);
+    }
+
     all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   
     return all;
   }  
 
   async findOne(id: number) {
-    return this.databaseService.user.findUnique({
+    const user = await this.databaseService.user.findUnique({
       where: {
         id
       }
     });
+
+    if (!user) {
+      throw new NotFoundException(`User ${id} not found.`);
+    }
+
+    return user;
   }
 }

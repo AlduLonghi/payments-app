@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma, Status } from '../../generated/prisma';
 import { DatabaseService } from '../database/database.service';
 
@@ -99,6 +99,11 @@ export class TransactionsService {
         createdAt: 'desc',
       },
     });
+
+      if (transactions.length === 0) {
+          throw new NotFoundException(`Transactions not found.`);
+        }
+    
     return transactions;
   }
 
