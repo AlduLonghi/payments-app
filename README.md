@@ -98,6 +98,12 @@ This API handles basic user management and monetary transactions between users. 
 
 ---
 
+> **Note**
+> You can use a Data Visualization Tool such as [Table Plus](https://tableplus.com/) for better DB managing.
+
+- Once you have the app up and running, go to [localhost:3000/swagger](localhost:3000/swagger) and check the different endpoints and schemas available.
+
+
 ## 🔗 Base URL
 
 http://localhost:3000

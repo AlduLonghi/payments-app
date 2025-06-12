@@ -18,6 +18,6 @@ export class UsersController {
 
   @Get(':id/transactions')
   getAllTransactions(@Param('id') id: string) {
-    return this.usersService.findAllTransactions(Number(id));
+    return this.usersService.findAllTransactions(+id);
   }
 }

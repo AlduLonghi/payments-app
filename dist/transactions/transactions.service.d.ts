@@ -7,11 +7,11 @@ export declare class TransactionsService {
     create(createTransactionDto: Prisma.TransactionUncheckedCreateInput): Promise<any>;
     findAll(): Promise<{
         id: number;
-        originId: number;
-        destinationId: number;
         amount: number;
         status: import("../../generated/prisma").$Enums.Status | null;
         createdAt: Date;
+        destinationId: number;
+        originId: number;
     }[]>;
     updateStatus(id: number, status: Status): Promise<{
         success: boolean;

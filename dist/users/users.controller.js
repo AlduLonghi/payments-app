@@ -28,7 +28,7 @@ let UsersController = class UsersController {
         return this.usersService.findOne(+id);
     }
     getAllTransactions(id) {
-        return this.usersService.findAllTransactions(Number(id));
+        return this.usersService.findAllTransactions(+id);
     }
 };
 exports.UsersController = UsersController;

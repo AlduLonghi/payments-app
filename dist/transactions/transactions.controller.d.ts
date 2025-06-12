@@ -6,11 +6,11 @@ export declare class TransactionsController {
     create(createTransactionDto: Prisma.TransactionUncheckedCreateInput): Promise<any>;
     findAll(): Promise<{
         id: number;
-        originId: number;
-        destinationId: number;
         amount: number;
         status: import("../../generated/prisma").$Enums.Status | null;
         createdAt: Date;
+        destinationId: number;
+        originId: number;
     }[]>;
     update(id: string, body: {
         status: Status;
