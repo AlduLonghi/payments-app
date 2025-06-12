@@ -131,11 +131,11 @@ Creates a new user.
 }
 ```
 
-### 📄 Get All Users
+### 📄 Get All Transactions for a User 
 
-**GET** `/users`
+**GET** `:id/transactions`
 
-Returns a list of all users.
+Returns all transactions for a user ordered by creation date (newest first).
 
 ### 🔍 Get a Single User
 
@@ -185,12 +185,6 @@ Creates a new user.
 ### 📄 Get All Transactions
 
 **GET** `/transactions`
-
-Returns all transactions ordered by creation date (newest first).
-
-### 📄 Get All Transactions for a user 
-
-**GET** `/transactions/:userid`
 
 Returns all transactions ordered by creation date (newest first).
 
