@@ -16,9 +16,31 @@ export class UsersService {
     })
   }
 
-  findAll() {
-    return `This action returns all users`;
-  }
+  async findAllTransactions(userId: number) {
+    const sent = await this.databaseService.transaction.findMany({
+      where: {
+        originId: userId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  
+    const received = await this.databaseService.transaction.findMany({
+      where: {
+        destinationId: userId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  
+    const all = [...sent, ...received];
+  
+    all.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  
+    return all;
+  }  
 
   async findOne(id: number) {
     return this.databaseService.user.findUnique({

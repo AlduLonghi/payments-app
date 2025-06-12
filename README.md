@@ -4,33 +4,13 @@
 
 The goal of this project is to develop a backend application using **NestJS** to manage payments. The application should meet the following requirements:
 
-### 3. 🤖 **API Endpoints:**
-
-### 📌 Features
-- **Authentication & Authorization**: User registration, login, and updates with roles (`ADMIN`, `USER`).
-- **Movie Management**: Create, retrieve, and update movies with details like director, cast, and release date.
-- **Queries & Mutations**:
-  - `login`: User authentication.
-  - `register`: Register new users.
-  - `getMovies`: Retrieve all available movies.
-  - `getMovieByTitle`: Find a movie by title.
-  - `createMovie`: Add a new movie.
-  - `updateMovie`: Modify movie details.
-  - `getUser`: Get user information by ID.
-  - `updateUser`: Update user data.
-
-- **Automated Data Sync**:  
-  - A **cron job** runs **once when the API starts** and then **every 5 minutes** to fetch the latest movie data from the **Star Wars API** and update the database.
-
----
-
 ## 📜 **Project Setup:**
 
 ### 1. Prerequisites:
 
 Before you begin, make sure you have the following software installed on your machine:
 
-- **Docker**: Used to run the database in a containerized environment.  
+- **Docker**: (Optional) Used to run the database in a containerized environment.  
   You can download and install Docker from here: [Docker Official Website](https://www.docker.com/products/docker-desktop)
 
 - **Node.js**: Used to run the backend application.  
@@ -58,12 +38,12 @@ To install all the dependencies required for the project, run:
 npm install
 ```
 
-### 5. Install and up MongoDB using Docker
+### 5. Install and up Postgres using Docker (Optional)
 
-Then, run the following command to start MongoDB in a container:
+Then, run the following command to start Postgres in a container. Optional if you already have a :
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 6. Configure environment variables 
@@ -71,12 +51,38 @@ docker-compose up -d
 Create a .env file in the root directory of the project and add the following environment variables:
 
 ```bash
-JWT_SECRET=<your_jwt_secret>
+DATABASE_URL=<your_database_url>
 ```
 
-Replace <your_jwt_secret> with a secret string for signing JWT tokens.
+Replace <your_database_url> with your database url.
 
-### 7. Run the application
+If .env is missing, copy from .env.example if available:
+
+```bash
+cp .env.example .env
+```
+
+### 7. Initialize prisma
+
+a. Generate Prisma Client
+
+```bash
+npx prisma generate
+```
+
+b. Run Migrations (if applicable)
+
+```bash
+npx prisma migrate dev
+```
+
+Otherwise, if the DB already exists and you want to sync Prisma with it:
+
+```bash
+npx prisma db pull
+```
+
+### 8. Run the application
 
 After installing dependencies and configuring the environment, you can start the application with:
 
@@ -84,43 +90,122 @@ After installing dependencies and configuring the environment, you can start the
 npm run start:dev
 ```
 
-### 8. Go to the host url
-
-The app will be running at http://localhost:3000/graphql
-
-## 📜 **API documentation**
-
-This project uses Graphql with [Apollo](https://www.apollographql.com/docs/apollo-server/)
-
 ## Steps for accesing the features:
 
-### 1. Create the first user with the role ADMIN:
+# 📚 API Documentation
 
-- Use the mutation: register
+This API handles basic user management and monetary transactions between users. It is built with **NestJS** and uses **Prisma ORM**.
 
-![login ](https://github.com/user-attachments/assets/63fa8c85-f324-4f25-8c75-38528e49256f)
+---
 
-[VIDEO TUTORIAL OF REGISTER](https://imagekit.io/tools/asset-public-link?detail=%7B%22name%22%3A%22how-to-register-first-user.mov%22%2C%22type%22%3A%22video%2Fquicktime%22%2C%22signedurl_expire%22%3A%222028-03-25T14%3A50%3A09.546Z%22%2C%22signedUrl%22%3A%22https%3A%2F%2Fmedia-hosting.imagekit.io%2F15cb9c0b048f48aa%2Fhow-to-register-first-user.mov%3FExpires%3D1837608610%26Key-Pair-Id%3DK2ZIVPTIP2VGHC%26Signature%3Dy~XHJzmddO77avC4A84yOPmbBJ~DbRy7~F-D0uMzTV0LpfMkYPp~e4J6Q0p-ttTbWVpnfaak4X63b64qjfrXepGr3uaxHFtVyQtXUUK~lHQZ~z3lm0kfJ7nYYjC6iBKf1~5BjmL6dBInTya1CUqBiWiadD38Q92BA79MJ2VqZBOYv4auruxEWWTf6mgqGcNMPCfbQPDXz9qG7bJowYdYgXjZGS0juL1U3ykZjzKwE0cPEHCThvInJRxoaq-uN3426KivELVWWJHuHzwDMf~NtGVE-1oyg2PIjOF5yvLrprC1m58rjiwRoLRG~ydvc8GOWJFenMCpRpslcz-9kskKiw__%22%7D)
+## 🔗 Base URL
 
+http://localhost:3000
 
-### 2. Login and obtain the token:
+## 🧑‍💼 Users Endpoints
 
-- Use the mutation: login
+### ➕ Create a User
 
-![register](https://github.com/user-attachments/assets/f5ab5671-baff-4a14-b11f-766f94325cb5)
+**POST** `/users`
 
-[VIDEO TUTORIAL OF LOGIN](https://imagekit.io/tools/asset-public-link?detail=%7B%22name%22%3A%22how-to-login.mov%22%2C%22type%22%3A%22video%2Fquicktime%22%2C%22signedurl_expire%22%3A%222028-03-25T15%3A01%3A06.344Z%22%2C%22signedUrl%22%3A%22https%3A%2F%2Fmedia-hosting.imagekit.io%2F3b676dc95dff4fe1%2Fhow-to-login.mov%3FExpires%3D1837609266%26Key-Pair-Id%3DK2ZIVPTIP2VGHC%26Signature%3Do8C7-S0Qf4cJAhD~a2Ge~5JOxpPBSViQDWJqC872OgdUl~hwhofOfhJ6OZdK1WT9Wix1Tapr5VMbRGEK9GrWmAA3Bk~TFTv8iLnoV81u6~betydumKecHa6RrZyUaSKbmaKerVleEqSmcaK1admV78e~ldYidMgELeHg1-~yeiWI5ncMN6tEM1xnMc8e~WvuhR0UtdtPeljQOKsMy56OxAJCYqGyUhiY9k8mIP66HnkSrihNKVX8cZaau7qzLaQE~YuiaYRWQKJRc9IXbmNvXXuWtSGWoPAWM1yGhmRbNh7hYtSUV2cLnYxim~GehxUfNMpl~PFJ4U-AqakAt-rW2w__%22%7D)
+Creates a new user.
 
-### 3. Set token to Authentication header:
+#### Request Body
 
-![set header](https://github.com/user-attachments/assets/3289d57f-0e7a-4a45-8f23-d4b5970ed30c)
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "balance": 1000
+}
+```
 
-[VIDEO TUTORIAL OF AUTHENTICATION HEADER](https://imagekit.io/tools/asset-public-link?detail=%7B%22name%22%3A%22how-to-add-token-to-header.mov%22%2C%22type%22%3A%22video%2Fquicktime%22%2C%22signedurl_expire%22%3A%222028-03-25T15%3A01%3A06.340Z%22%2C%22signedUrl%22%3A%22https%3A%2F%2Fmedia-hosting.imagekit.io%2Fcc8e2d69159a4ebf%2Fhow-to-add-token-to-header.mov%3FExpires%3D1837609266%26Key-Pair-Id%3DK2ZIVPTIP2VGHC%26Signature%3DJHXYi4yOUxhycA1AkGzgah3zvfmfWDF-fnyRp3WcJhxr1c4yFtKEFsetQpcUMqLrpY75k6PQPPOW-FaneEbUSBhYD6PwdeWKMm-cJz4UTmbxC5JHBLd1gRqC3LrKr5SlCR0J3aUaETsVGuBytOvCWxlebhvMr5WctyhUKWkTxvUz6J5eUHmX68srN9DuM-a0w~75gXsmZJlNC2oaJCZ-3ag1tYeeNpgwvAsgQ~uz0lzd5BwPU6yhnwDinJd8S4V3m7cEdn15sgf8NXpMWZ4aoUFz6DneVWbUGFH6B0Jmm1iCm~-P3N4KpasAZCbpwaNJulFreilMm2FkyDY19QkfuQ__%22%7D)
+#### Response 
 
-### 4. Let's play!
+```json
+{
+  "id": 1,
+  "name": "John Doe",
+  "email": "john@example.com",
+  "balance": 1000
+}
+```
 
-This GraphQL-based API allows for user and movie management, including JWT authentication. 
+### 📄 Get All Users
 
-![get movie](https://github.com/user-attachments/assets/351726b5-8381-42b4-af84-847a8bf7ea59)
+**GET** `/users`
 
-[VIDEO TUTORIAL OF GET MOVIES](https://imagekit.io/tools/asset-public-link?detail=%7B%22name%22%3A%22how-to-get-movies.mov%22%2C%22type%22%3A%22video%2Fquicktime%22%2C%22signedurl_expire%22%3A%222028-03-25T15%3A01%3A06.342Z%22%2C%22signedUrl%22%3A%22https%3A%2F%2Fmedia-hosting.imagekit.io%2F0ca3d5d1527e40ef%2Fhow-to-get-movies.mov%3FExpires%3D1837609266%26Key-Pair-Id%3DK2ZIVPTIP2VGHC%26Signature%3DnMTxOQ54b2nsWzgUbKNTtu2GBmLfv-lCNCgKFEiRVXba-gegAa5Zi~aC6pEV~rH3i9jDXi0WcPogI7cD25410fCmEHs4JFfJAdIy3ahJQDc9UI6kAQ54NNlQdKMWmbmDcWnlA4p1d1b4lNj488FIxiWwNf3ATjMSppqExYsezKPthManjpG2KeXwbn8cmevEsJLPoJkLCnF~e9h-rpLN9nGgk3xpXvF6JhTkab9bDnfrHjI0mTZDLW-Uc9Ovm4AiTgetNiDuNm8FvIQL0TtTWh1-eEGLalLCZVIhzH7dI7o8YKW2D8JIkNHprLqFcVtcka7rAfvX8K-RIXWa2S8dgQ__%22%7D)
+Returns a list of all users.
+
+### 🔍 Get a Single User
+
+**GET** `/users/:id`
+
+Returns a user by their ID.
+
+```bash
+GET /users/1
+```
+
+## 💸 Transactions endpoints
+
+### ➕ Create a Transaction
+
+**POST** `/transactions`
+
+Creates a new user.
+
+#### Request Body
+
+```json
+{
+  "originId": 1,
+  "destinationId": 2,
+  "amount": 25000
+}
+```
+
+- If amount > 50000, the transaction will be created with status PENDING.
+
+- If amount <= 50000, the transaction will be created with status APPROVED.
+
+#### Response 
+
+```json
+{
+  "id": 1,
+  "originId": 1,
+  "destinationId": 2,
+  "amount": 25000,
+  "status": "APPROVED",
+  "createdAt": "2025-06-12T15:30:00.000Z"
+}
+```
+
+### 📄 Get All Transactions
+
+**GET** `/transactions`
+
+Returns all transactions ordered by creation date (newest first).
+
+### 📄 Get All Transactions for a user 
+
+**GET** `/transactions/:userid`
+
+Returns all transactions ordered by creation date (newest first).
+
+### ✏️ Update Transaction Status
+
+**PATCH** `/transactions/updateStatus/:id`
+
+Updates the status of a PENDING transaction to either APPROVED or REJECTED.
+
+```json
+{
+  "status": "APPROVED"
+}
+```
+
+- If APPROVED, the amount is added to the destination’s balance.
+
+- If REJECTED, the amount is refunded to the origin’s balance.

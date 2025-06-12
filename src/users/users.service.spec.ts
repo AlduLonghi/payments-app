@@ -62,13 +62,6 @@ describe('UsersService', () => {
     });
   });
 
-  describe('findAll', () => {
-    it('should return a static string', () => {
-      const result = service.findAll();
-      expect(result).toBe('This action returns all users');
-    });
-  });
-
   describe('findOne', () => {
     it('should return a user by id', async () => {
       const user = { id: 1, name: 'Test', email: 'test@example.com', balance: 500 };

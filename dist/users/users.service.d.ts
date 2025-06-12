@@ -9,7 +9,14 @@ export declare class UsersService {
         email: string;
         balance: number;
     }>;
-    findAll(): string;
+    findAllTransactions(userId: number): Promise<{
+        id: number;
+        amount: number;
+        status: import("../../generated/prisma").$Enums.Status | null;
+        createdAt: Date;
+        destinationId: number;
+        originId: number;
+    }[]>;
     findOne(id: number): Promise<{
         id: number;
         name: string;

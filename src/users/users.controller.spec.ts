@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { Prisma } from '../../generated/prisma';
+import { Prisma, Status } from '../../generated/prisma';
 
 describe('UsersController', () => {
   let controller: UsersController;
@@ -11,6 +11,7 @@ describe('UsersController', () => {
     create: jest.fn(),
     findAll: jest.fn(),
     findOne: jest.fn(),
+    findAllTransactions: jest.fn()
   };
 
   beforeEach(async () => {
@@ -50,21 +51,6 @@ describe('UsersController', () => {
     });
   });
 
-  describe('findAll', () => {
-    it('should return all users', async () => {
-      const users = [
-        { id: 1, name: 'John', email: 'john@example.com', balance: 1000 },
-        { id: 2, name: 'Jane', email: 'jane@example.com', balance: 2000 },
-      ];
-
-      mockUsersService.findAll.mockResolvedValue(users);
-
-      const result = await controller.findAll();
-      expect(service.findAll).toHaveBeenCalled();
-      expect(result).toEqual(users);
-    });
-  });
-
   describe('findOne', () => {
     it('should return one user by id', async () => {
       const user = { id: 1, name: 'John', email: 'john@example.com', balance: 1000 };
@@ -74,6 +60,42 @@ describe('UsersController', () => {
       const result = await controller.findOne('1');
       expect(service.findOne).toHaveBeenCalledWith(1);
       expect(result).toEqual(user);
+    });
+  });
+
+  describe('getAllTransactions', () => {
+    it('should return an array of transactions for a given user ID', async () => {
+      const mockTransactions = [
+        { id: 1, amount: 100, originId: 1, destinationId: 1, createdAt: new Date, status: Status.APPROVED},
+      ];
+      const userId = '1'; 
+      jest.spyOn(service, 'findAllTransactions').mockResolvedValue(mockTransactions);
+
+      const result = await controller.getAllTransactions(userId);
+
+      expect(service.findAllTransactions).toHaveBeenCalledWith(Number(userId));
+      expect(result).toEqual(mockTransactions);
+    });
+
+    it('should return an empty array if no transactions are found', async () => {
+      const userId = '999'; 
+      const mockEmptyTransactions: any[] = [];
+
+      jest.spyOn(service, 'findAllTransactions').mockResolvedValue(mockEmptyTransactions);
+      const result = await controller.getAllTransactions(userId);
+
+      expect(service.findAllTransactions).toHaveBeenCalledWith(Number(userId));
+      expect(result).toEqual(mockEmptyTransactions);
+    });
+
+    it('should handle errors from the service', async () => {
+      const userId = '1';
+      const errorMessage = 'Transactions not found';
+
+      jest.spyOn(service, 'findAllTransactions').mockRejectedValue(new Error(errorMessage));
+
+      await expect(controller.getAllTransactions(userId)).rejects.toThrow(errorMessage);
+      expect(service.findAllTransactions).toHaveBeenCalledWith(Number(userId));
     });
   });
 });

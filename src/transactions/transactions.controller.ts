@@ -16,7 +16,7 @@ export class TransactionsController {
     return this.transactionsService.findAll();
   }
 
-  @Patch('updateStatus/:id')
+  @Patch(':id/updateStatus')
   update(@Param('id') id: string, @Body() body: { status: Status }) {
     return this.transactionsService.updateStatus(+id, body.status);
   }

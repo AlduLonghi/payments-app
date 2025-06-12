@@ -13,6 +13,7 @@ describe('TransactionsController', () => {
     create: jest.fn(),
     findAll: jest.fn(),
     updateStatus: jest.fn(),
+    findAllForUser: jest.fn()
   };
 
   const mockDatabaseService = {
